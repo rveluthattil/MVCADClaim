@@ -1,0 +1,94 @@
+option-1:
+
+edit \My Documents\IISExpress\config\applicationhost.config file and enable windowsAuthentication, i.e:
+
+<system.webServer>
+...
+  <security>
+...
+    <authentication>
+      <windowsAuthentication enabled="true" />
+    </authentication>
+...
+  </security>
+...
+</system.webServer>
+
+Unlock windowsAuthentication section in \My Documents\IISExpress\config\applicationhost.config as follows
+
+<add name="WindowsAuthenticationModule" lockItem="false" />
+Alter override settings for the required authentication types to 'Allow'
+
+<sectionGroup name="security">
+    ...
+    <sectionGroup name="system.webServer">
+        ...
+        <sectionGroup name="authentication">
+            <section name="anonymousAuthentication" overrideModeDefault="Allow" />
+            ...
+            <section name="windowsAuthentication" overrideModeDefault="Allow" />
+    </sectionGroup>
+</sectionGroup>
+
+	
+It looks like you solved your own question! Good on you. In addition to this post helping me I found the following to be SUPER helpful in configuring my IIS Express.
+
+IIS Express Windows Authentication
+
+Edit: I've copied the important information from the associated link in case it dies. This is completely from user vikomall
+
+option-1:
+
+edit \My Documents\IISExpress\config\applicationhost.config file and enable windowsAuthentication, i.e:
+
+<system.webServer>
+...
+  <security>
+...
+    <authentication>
+      <windowsAuthentication enabled="true" />
+    </authentication>
+...
+  </security>
+...
+</system.webServer>
+option-2:
+
+Unlock windowsAuthentication section in \My Documents\IISExpress\config\applicationhost.config as follows
+
+<add name="WindowsAuthenticationModule" lockItem="false" />
+Alter override settings for the required authentication types to 'Allow'
+
+<sectionGroup name="security">
+    ...
+    <sectionGroup name="system.webServer">
+        ...
+        <sectionGroup name="authentication">
+            <section name="anonymousAuthentication" overrideModeDefault="Allow" />
+            ...
+            <section name="windowsAuthentication" overrideModeDefault="Allow" />
+    </sectionGroup>
+</sectionGroup>
+Add following in the application's web.config
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+      <security>
+        <authentication>
+          <windowsAuthentication enabled="true" />v
+        </authentication>
+      </security>
+    </system.webServer>
+</configuration>
+
+<authentication>
+
+            <anonymousAuthentication enabled="false" userName="" />
+			
+Be careful with the applicationhost.config modifications - in Visual Studio 2015 I've found that it
+resides in the local project directory.
+
+For example:
+
+DRIVE:\MYPROJECT\.vs\config\applicationhost.config
